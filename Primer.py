@@ -3,7 +3,7 @@ from tkinter import *
 import tkinter.font as tkFont
 
 
-
+#JaviGayyyyy
 
 class Moleculas:
 	def __init__(self, canvas, x, y, w, h, Yo, mass = 0, Xo = -275, color = 'blue'):
