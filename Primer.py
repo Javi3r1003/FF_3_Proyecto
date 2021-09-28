@@ -4,43 +4,54 @@ import tkinter.font as tkFont
 
 D = 2
 mole = []
+X = []
+Y = []
 
 
 class Moleculas:
-	def __init__(self, canvas, x, y, w, h, Yo, mass = 1, q = -1, Xo = -275, color = 'blue'):
-		self.canvas = canvas
+    def __init__(self, canvas, x, y, w, h, Yo, tipo, mass = 1, q = -1, Xo = -275, color = 'blue'):
+        self.canvas = canvas
 
 
-		self.x = x
-		self.y = y
-		self.vel = [0,0]
-		self.acc = [0,0]	
-		self.body = self.canvas.create_oval(x-w/2, y-h/2, x+w/2, x+h/2, fill = color)
-		self.mass = mass
-		self.q = q
+        self.x = x
+        self.y = y
+        self.vel = [0,0]
+        self.acc = [0,0]    
+        self.body = self.canvas.create_oval(x-w/2, y-h/2, x+w/2, x+h/2, fill = color)
+        self.mass = mass
+        self.q = q
+        self.tipo = tipo
+        self.Xo = Xo
+        self.Yo = Yo
 
-		self.canvas.move(self.body, -275, Yo)
+        self.canvas.move(self.body, -275, Yo)
 
-	def Force(self, Px, Py):
-		global D
-		self.acc[0] = (self.q*Px)/(self.mass*D)
-		self.acc[1] = (self.q*Py)/(self.mass*D)
+    def Force(self, Px, Py):
+        global D
+        self.acc[0] = (self.q*Px)/(self.mass*D)
+        self.acc[1] = (self.q*Py)/(self.mass*D)
 
-	def update(self, t, P1, P2):
-		self.x, self.y, *c = self.canvas.coords(self.body)
+    def update(self, t, P1, P2):
+        self.x, self.y, *c = self.canvas.coords(self.body)
 
-		self.Force(P1, P2)
+        if self.x < 595:
+            self.Force(P1, P2)
+            self.vel[0] = self.vel[0] + self.acc[0]*t
+            self.vel[1] = self.vel[1] + self.acc[1]*t
+            self.canvas.move(self.body, -self.vel[0], self.vel[1])
+        else:
+            if self.tipo == "S":
+                X.append(self.y)
+            else:
+                Y.append(self.y)
 
-		self.vel[0] = self.vel[0] + self.acc[0]*t
-		self.vel[1] = self.vel[1] + self.acc[1]*t
-
-		self.canvas.move(self.body, -self.vel[0], self.vel[1])
+            self.canvas.delete(self.body)
 
 
 
 
 
-		
+        
 
 
 
@@ -85,8 +96,7 @@ class aplic():
         self.Can.move(p8, -200, 550)
 
 
-        Ms = Moleculas(self.Can, 350, 350, 10, 10, 251)
-        mole.append(Ms)
+        
 
 
 #Vista Lateral
@@ -112,35 +122,35 @@ class aplic():
         self.Can.move(p8, -200, 150)
 
 
-        Ml = Moleculas(self.Can, 350, 350, 10, 10, -149)
-        mole.append(Ml)
+        
 
-
-
+#Bucle de las partículas
         while True:
-        	self.root.update()
-        	print("esta")
-        	for m in mole:
-        		m.update(.0001, 50, 0)
+            try:
+                self.root.update()
+                Ml = Moleculas(self.Can, 350, 350, 10, 10, -149, "L")
+                mole.append(Ml)
+                Ms = Moleculas(self.Can, 350, 350, 10, 10, 251, "S")
+                mole.append(Ms)
+
+                while True:
+                    try:
+                        self.root.update()
+                        #print("esta")
+                        for m in mole:
+                            m.update(.000001, 50, 5)
+                    except:
+                        break
+                mole.clear()
+            except:
+                break
+
+
+
+
+#Botones
+
+
 
         self.master.mainloop()
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-def main():
-    app = aplic()
-    return(0)
-        
-if __name__ == '__main__':
-    main()
