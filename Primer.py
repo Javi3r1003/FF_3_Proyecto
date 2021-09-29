@@ -8,7 +8,9 @@ import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.animation as animation
 
-D = 2
+D = 5
+DX = 0.360934/4
+Dy = 0.015/4
 mole = []
 X = []
 Y = []
@@ -17,7 +19,7 @@ fig = plt.Figure()
 
 
 class Moleculas:
-    def __init__(self, canvas, x, y, w, h, Yo, tipo, mass = 1, q = -1, Xo = -275, color = 'blue'):
+    def __init__(self, canvas, x, y, w, h, Yo, tipo, mass = 9.11*10**-31, q = -1.60*10**-19, Xo = -275, color = 'blue'):
         self.canvas = canvas
 
 
@@ -34,21 +36,29 @@ class Moleculas:
 
         self.canvas.move(self.body, -275, Yo)
 
-    def Force(self, Px, Py):
-        global D
-        self.acc[0] = (self.q*Px)/(self.mass*D)
-        self.acc[1] = (self.q*Py)/(self.mass*D)
+    def Acex(self, Px):
+        self.acc[0] = (self.q*Px)/(self.mass*DX)
+        
+
+    def Acey(self, Py):
+        self.acc[1] = (self.q*Py)/(self.mass*Dy)
 
     def update(self, t, P1, P2):
         self.x, self.y, *c = self.canvas.coords(self.body)
 
         if self.x < 382:
 
-            
-            self.Force(P1, P2)
+            self.Acex(P1)
+
+            if self.x > 180 and self.x <185:
+                self.Acey(P2)
+                self.vel[1] = self.vel[1] + self.acc[1]*t
+
             self.vel[0] = self.vel[0] + self.acc[0]*t
-            self.vel[1] = self.vel[1] + self.acc[1]*t
+            
+            
             self.canvas.move(self.body, -self.vel[0], self.vel[1])
+            print(self.vel)
             
 
         else:
@@ -151,7 +161,7 @@ class aplic():
         SH.set(0)
         SH.place(x = 250, y = 35)
 
-        SA = Scale(W, from_=0, to=2500, tickinterval= 500, orient=HORIZONTAL, length=250, bg = '#F0B27A', bd = 0, highlightbackground = '#F0B27A', label = 'Potencial Aceleración', font = fontt)
+        SA = Scale(W, from_= 50, to=2500, tickinterval= 550, orient=HORIZONTAL, length=250, bg = '#F0B27A', bd = 0, highlightbackground = '#F0B27A', label = 'Potencial Aceleración', font = fontt)
         SA.set(0)
         SA.place(x = 10, y = 130)
 
@@ -165,7 +175,7 @@ class aplic():
 
         def animate(i):
             #self.graph.update()
-            line.set_ydata(np.sin(x+i/10.0))  # update the data
+            line.set_data(X[:i], Y[:i])
             return line,
 
         x = np.arange(0, 2*np.pi, 0.01)  
@@ -174,7 +184,7 @@ class aplic():
         CA.get_tk_widget().place(x = 0, y = 0)
 
         ax = fig.add_subplot(111)
-        line, = ax.plot(x, np.sin(x))
+        line, = ax.plot(X, Y)
 
         ani = animation.FuncAnimation(fig, animate, np.arange(1, 200), interval=25, blit=False)
         self.root.update()
@@ -199,12 +209,12 @@ class aplic():
                 while True:
                     try:
                         self.root.update()
-                        print("esta")
+                        #print("esta")
                         for m in mole:
                             if m.tipo == "S":
-                                m.update(0.0000001, SA.get(), SH.get())
+                                m.update(0.00000000000000001, SA.get(), SH.get())
                             elif m.tipo == "L":
-                                m.update(0.0000001, SA.get(), SV.get())
+                                m.update(0.00000000000000001, SA.get(), SV.get())
                     except:
                         break
                 mole.clear()
@@ -222,6 +232,42 @@ class aplic():
 
 
         self.master.mainloop()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+def main():
+    app = aplic()
+    return(0)
+        
+if __name__ == '__main__':
+    main()
+        
+
+        
+            
+
+
+        
+
+
+
+
+
+
+
+
+        
 
 
 
