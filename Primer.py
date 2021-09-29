@@ -121,6 +121,28 @@ class aplic():
         p8 = self.Can.create_line(250, 0, 250, 101)
         self.Can.move(p8, -200, 150)
 
+        #Frame para los botones
+        W = Frame(self.Can, height = 300, width = 850, bg = "#F0B27A")
+        W.place(x = 665, y = 520)
+
+        fontt = tkFont.Font(family = "Century Gothic", size = 10)
+
+        SV = Scale(W, from_=-50, to=50, tickinterval= 50, orient=HORIZONTAL, length=185, bg = '#F0B27A', bd = 0, highlightbackground = '#F0B27A', label = 'Potencial placas verticales', font = fontt)
+        SV.set(0)
+        SV.place(x = 10, y = 35)
+
+
+        SH = Scale(W, from_=-50, to=50, tickinterval= 50, orient=HORIZONTAL, length=200, bg = '#F0B27A', bd = 0, highlightbackground = '#F0B27A', label = 'Potencial placas horizontales', font = fontt)
+        SH.set(0)
+        SH.place(x = 250, y = 35)
+
+        SA = Scale(W, from_=0, to=150, tickinterval= 50, orient=HORIZONTAL, length=185, bg = '#F0B27A', bd = 0, highlightbackground = '#F0B27A', label = 'Potencial Aceleración', font = fontt)
+        SA.set(0)
+        SA.place(x = 10, y = 120)
+
+#Botones
+
+
 
         
 
@@ -138,7 +160,10 @@ class aplic():
                         self.root.update()
                         #print("esta")
                         for m in mole:
-                            m.update(.000001, 50, 5)
+                            if m.tipo == "S":
+                                m.update(0.0000001, SA.get(), SH.get())
+                            elif m.tipo == "L":
+                                m.update(0.0000001, SA.get(), SV.get())
                     except:
                         break
                 mole.clear()
@@ -148,9 +173,28 @@ class aplic():
 
 
 
-#Botones
+
 
 
 
         self.master.mainloop()
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+def main():
+    app = aplic()
+    return(0)
+        
+if __name__ == '__main__':
+    main()
