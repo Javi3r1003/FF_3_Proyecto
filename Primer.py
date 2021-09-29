@@ -120,6 +120,23 @@ class aplic():
 
         p8 = self.Can.create_line(250, 31, 250, 70)
         self.Can.move(p8, -200, 150)
+        
+        
+#Cuadritooo
+        p1 = self.Can.create_rectangle(0, 0, 312, 1, fill ="black")
+        self.Can.move(p1, 800, 100)
+        
+        p2 = self.Can.create_rectangle(0, 0, 312, 1, fill ="black")
+        self.Can.move(p2, 800, 412)
+        
+        p3 = self.Can.create_rectangle(0, 0, 1, 312, fill ="black")
+        self.Can.move(p3, 800, 100)
+        
+        p3 = self.Can.create_rectangle(0, 0, 1, 312, fill ="black")
+        self.Can.move(p3, 1112, 100)
+        
+        
+        
 
         #Frame para los botones
         W = Frame(self.Can, height = 300, width = 850, bg = "#F0B27A")
