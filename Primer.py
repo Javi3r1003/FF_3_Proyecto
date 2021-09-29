@@ -100,25 +100,25 @@ class aplic():
 
 
 #Vista Lateral
-        p1 = self.Can.create_rectangle(0, 0, 250, 1, fill ="black")
-        self.Can.move(p1, 50, 251)
+        p1 = self.Can.create_rectangle(0, 0, 120, 1, fill ="black")
+        self.Can.move(p1, 50, 220)
 
-        p2 = self.Can.create_rectangle(0, 0, 250, 1, fill ="black")
-        self.Can.move(p2, 50, 150)
+        p2 = self.Can.create_rectangle(0, 0, 120, 1, fill ="black")
+        self.Can.move(p2, 50, 181)
 
-        p3 = self.Can.create_rectangle(0, 0, 550, 1, fill ="black")
+        p3 = self.Can.create_rectangle(0, 0, 341, 1, fill ="black")
         self.Can.move(p3, 50, 200)
 
-        p4 = self.Can.create_line(250, 1, 550, 50, width = 2)
-        self.Can.move(p4, 50, 250)
+        p4 = self.Can.create_line(120, 0, 341, 129, width = 2)
+        self.Can.move(p4, 50, 220)
 
-        p5 = self.Can.create_line(250, 1, 550, -50, width = 2)
-        self.Can.move(p5, 50, 150)
+        p5 = self.Can.create_line(120, 0, 341, -143, width = 2)
+        self.Can.move(p5, 50, 181)
 
-        p6 = self.Can.create_line(550, -50, 550, 151)
-        self.Can.move(p6, 50, 150)
+        p6 = self.Can.create_line(341, -156, 341, 156)
+        self.Can.move(p6, 50, 194)
 
-        p8 = self.Can.create_line(250, 0, 250, 101)
+        p8 = self.Can.create_line(250, 31, 250, 70)
         self.Can.move(p8, -200, 150)
 
         #Frame para los botones
