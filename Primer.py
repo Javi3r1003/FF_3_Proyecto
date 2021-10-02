@@ -7,6 +7,7 @@ from matplotlib.figure import Figure
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.animation as animation
+from matplotlib.colors import LinearSegmentedColormap
 
 D = 5
 DX = 0.360934/4
@@ -46,11 +47,15 @@ class Moleculas:
     def update(self, t, P1, P2):
         self.x, self.y, *c = self.canvas.coords(self.body)
 
-        if self.x < 382:
+        if self.x <= 383:
 
             self.Acex(P1)
 
-            if self.x > 180 and self.x <185:
+            if self.x >= 190 and self.x <= 195 and self.tipo == "S":
+                self.Acey(P2)
+                self.vel[1] = self.vel[1] + self.acc[1]*t
+
+            elif self.x >= 210 and self.x <= 215 and self.tipo == "L":
                 self.Acey(P2)
                 self.vel[1] = self.vel[1] + self.acc[1]*t
 
@@ -58,7 +63,7 @@ class Moleculas:
             
             
             self.canvas.move(self.body, -self.vel[0], self.vel[1])
-            print(self.vel)
+        
             
 
         else:
@@ -152,16 +157,16 @@ class aplic():
 
         fontt = tkFont.Font(family = "Century Gothic", size = 10)
 
-        SV = Scale(W, from_=-50, to=50, tickinterval= 50, orient=HORIZONTAL, length=185, bg = '#F0B27A', bd = 0, highlightbackground = '#F0B27A', label = 'Potencial placas verticales', font = fontt)
+        SV = Scale(W, from_=-750, to=750, tickinterval= 500, orient=HORIZONTAL, length=185, bg = '#F0B27A', bd = 0, highlightbackground = '#F0B27A', label = 'Potencial placas verticales', font = fontt)
         SV.set(0)
         SV.place(x = 10, y = 35)
 
 
-        SH = Scale(W, from_=-50, to=50, tickinterval= 50, orient=HORIZONTAL, length=200, bg = '#F0B27A', bd = 0, highlightbackground = '#F0B27A', label = 'Potencial placas horizontales', font = fontt)
+        SH = Scale(W, from_=-750, to=750, tickinterval= 500, orient=HORIZONTAL, length=200, bg = '#F0B27A', bd = 0, highlightbackground = '#F0B27A', label = 'Potencial placas horizontales', font = fontt)
         SH.set(0)
         SH.place(x = 250, y = 35)
 
-        SA = Scale(W, from_= 50, to=2500, tickinterval= 550, orient=HORIZONTAL, length=250, bg = '#F0B27A', bd = 0, highlightbackground = '#F0B27A', label = 'Potencial Aceleración', font = fontt)
+        SA = Scale(W, from_= 500, to=2500, tickinterval= 500, orient=HORIZONTAL, length=250, bg = '#F0B27A', bd = 0, highlightbackground = '#F0B27A', label = 'Potencial Aceleración', font = fontt)
         SA.set(0)
         SA.place(x = 10, y = 130)
 
@@ -173,10 +178,11 @@ class aplic():
 
 #Gráfica
 
+
         def animate(i):
-            #self.graph.update()
-            line.set_data(X[:i], Y[:i])
-            return line,
+            #Update de la gráfica
+            scatter.set_data(X[:i], Y[:i])
+            return scatter,
 
         x = np.arange(0, 2*np.pi, 0.01)  
         
@@ -184,9 +190,9 @@ class aplic():
         CA.get_tk_widget().place(x = 0, y = 0)
 
         ax = fig.add_subplot(111)
-        line, = ax.plot(X, Y)
+        scatter, = ax.plot(X, Y)
 
-        ani = animation.FuncAnimation(fig, animate, np.arange(1, 200), interval=25, blit=False)
+        ani = animation.FuncAnimation(fig, animate, np.arange(1, 200), interval=25, blit=False, cache_frame_data = True)
         self.root.update()
 
         
@@ -254,37 +260,3 @@ if __name__ == '__main__':
     main()
         
 
-        
-            
-
-
-        
-
-
-
-
-
-
-
-
-        
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-def main():
-    app = aplic()
-    return(0)
-        
-if __name__ == '__main__':
-    main()
