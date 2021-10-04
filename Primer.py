@@ -13,10 +13,20 @@ D = 5
 DX = 0.360934/4
 Dy = 0.015/4
 mole = []
-X = []
-Y = []
+X = [0]
+Y = [0]
+VX = []
+VY = []
+intensity = []
+colors = [[0,0,1,0],[0,0,1,0.5],[0,0.2,0.4,1]]
+cmap = LinearSegmentedColormap.from_list("", colors)
 
-fig = plt.Figure()
+fig, ax = plt.subplots()
+
+ax.axis([-155,155,-145,145])
+
+scatter = ax.scatter(VX, VY, c =[], cmap = cmap, vmin = 0, vmax = 1)
+
 
 
 class Moleculas:
@@ -34,6 +44,7 @@ class Moleculas:
         self.tipo = tipo
         self.Xo = Xo
         self.Yo = Yo
+        self.colors = [0,0,0,0]
 
         self.canvas.move(self.body, -275, Yo)
 
@@ -51,11 +62,11 @@ class Moleculas:
 
             self.Acex(P1)
 
-            if self.x >= 190 and self.x <= 195 and self.tipo == "S":
+            if self.x >= 170 and self.x <= 175 and self.tipo == "S":
                 self.Acey(P2)
                 self.vel[1] = self.vel[1] + self.acc[1]*t
 
-            elif self.x >= 210 and self.x <= 215 and self.tipo == "L":
+            elif self.x >= 180 and self.x <= 185 and self.tipo == "L":
                 self.Acey(P2)
                 self.vel[1] = self.vel[1] + self.acc[1]*t
 
@@ -68,9 +79,9 @@ class Moleculas:
 
         else:
             if self.tipo == "S":
-                X.append(self.y)
+                X.append(self.y-625)
             else:
-                Y.append(self.y)
+                Y.append(self.y-196)
 
             self.canvas.delete(self.body)
 
@@ -172,6 +183,12 @@ class aplic():
 
 
 
+        def get_new():
+            new_X = [X[-1]]
+            new_y = [Y[-1]]
+
+            return new_X, new_y
+
 
 
 
@@ -181,18 +198,36 @@ class aplic():
 
         def animate(i):
             #Update de la gráfica
-            scatter.set_data(X[:i], Y[:i])
-            return scatter,
+            global intensity
+            Nx, Ny = get_new()
+            VX.extend(Nx)
+            VY.extend(Ny)
+            scatter.set_offsets(np.c_[VX,VY])
 
-        x = np.arange(0, 2*np.pi, 0.01)  
+            print(np.ones(len(Nx)))
+            intensity = np.concatenate((np.array(intensity)*.5, np.ones(len(Nx))))
+            print(intensity)
+            scatter.set_array(intensity)
+
+
+            #ax.scatter(X[-1], Y[-1], c = "red")
+            #print(X[-1], Y[-1])
+            #ax.yticks(np.arange(min, max, step))
+            return ax 
         
         CA = FigureCanvasTkAgg(fig, master=self.graph)
         CA.get_tk_widget().place(x = 0, y = 0)
 
-        ax = fig.add_subplot(111)
-        scatter, = ax.plot(X, Y)
 
-        ani = animation.FuncAnimation(fig, animate, np.arange(1, 200), interval=25, blit=False, cache_frame_data = True)
+
+        
+        #scatter, = ax.plot(X, Y)
+        
+
+        ani = animation.FuncAnimation(fig, animate)
+        
+
+            
         self.root.update()
 
         
@@ -218,9 +253,9 @@ class aplic():
                         #print("esta")
                         for m in mole:
                             if m.tipo == "S":
-                                m.update(0.00000000000000001, SA.get(), SH.get())
+                                m.update(0.0000000000000000001, SA.get(), SH.get())
                             elif m.tipo == "L":
-                                m.update(0.00000000000000001, SA.get(), SV.get())
+                                m.update(0.0000000000000000001, SA.get(), SV.get())
                     except:
                         break
                 mole.clear()
@@ -228,6 +263,36 @@ class aplic():
                 break
 
 
+        
+
+
+
+
+
+
+
+
+        self.master.mainloop()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+def main():
+    app = aplic()
+    return(0)
+        
+if __name__ == '__main__':
+    main()
         
 
 
